@@ -7,6 +7,7 @@ const rootPath = root.pathname;
 const ignored = new Set([".git", "node_modules", ".release-proof"]);
 const required = [
   ".github/workflows/ci.yml",
+  ".github/workflows/production-reference.yml",
   ".github/workflows/release.yml",
   ".github/CODEOWNERS",
   ".github/dependabot.yml",
@@ -21,9 +22,12 @@ const required = [
   "SECURITY.md",
   "SUPPORT.md",
   "docs/architecture.md",
+  "docs/adoption/bitcoinkevin.json",
   "docs/security-model.md",
   "docs/maintainer-automation.md",
+  "docs/production-reference.md",
   "release-proof.config.example.json",
+  "scripts/verify-production-reference.mjs",
 ];
 
 function filesBelow(directory) {

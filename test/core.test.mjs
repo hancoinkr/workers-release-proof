@@ -225,10 +225,41 @@ test("secret scan honors directory exclusions", async (t) => {
 
 test("generic credential scan detects a non-placeholder assignment", async (t) => {
   const root = temporaryDirectory(t);
-  const source = "api_" + "key = " + "not-a-placeholder-value";
+  const source = "api_" + "key = " + "live-credential-material-42";
   write(root, "config.txt", source);
   const findings = await scanSecrets(root);
   assert.equal(findings.some((item) => item.code === "HARDCODED_CREDENTIAL"), true);
+});
+
+test("generic credential scan detects quoted code literals", async (t) => {
+  const root = temporaryDirectory(t);
+  write(root, "config.mjs", 'const client_secret = "live-credential-material-42";\n');
+  const findings = await scanSecrets(root);
+  assert.equal(findings.some((item) => item.code === "HARDCODED_CREDENTIAL"), true);
+});
+
+test("generic credential scan ignores code references and public placeholders", async (t) => {
+  const root = temporaryDirectory(t);
+  write(root, "source.mjs", [
+    "const token = transfer?.token_info || {};",
+    "const secret = env.AUTH_SIGNING_SECRET;",
+    "const api_key = process.env.API_KEY;",
+    'const fallbackSecret = "unconfigured-rate-limit-salt";',
+    "",
+  ].join("\n"));
+  assert.deepEqual(await scanSecrets(root), []);
+});
+
+test("generic credential scan ignores fake test values but keeps provider rules active", async (t) => {
+  const root = temporaryDirectory(t);
+  const credential = "ghp_" + "C".repeat(30);
+  write(root, "source.test.mjs", [
+    'const secret = "moderator-secret-with-at-least-32-characters";',
+    `const providerToken = "${credential}";`,
+    "",
+  ].join("\n"));
+  const findings = await scanSecrets(root);
+  assert.deepEqual(findings.map((item) => item.code), ["GITHUB_TOKEN"]);
 });
 
 test("health check validates release placeholders", async () => {

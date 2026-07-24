@@ -86,6 +86,20 @@ test("Git state records a full commit and clean worktree", (t) => {
   assert.match(state.commitSha, /^[a-f0-9]{40}$/);
 });
 
+test("Git state may ignore only the generated evidence path", (t) => {
+  const root = createRepository(t);
+  write(root, "generated/evidence.json", "{}\n");
+  write(root, "unexpected.txt", "dirty\n");
+  const dirty = collectGitState(root, { ignorePaths: ["generated/evidence.json"] });
+  assert.equal(dirty.clean, false);
+  assert.equal(dirty.dirtyCount, 1);
+  const clean = collectGitState(root, {
+    ignorePaths: ["generated/evidence.json", "unexpected.txt"],
+  });
+  assert.equal(clean.clean, true);
+  assert.equal(clean.dirtyCount, 0);
+});
+
 test("tracked file listing is repository-scoped", (t) => {
   const root = createRepository(t);
   const files = listTrackedFiles(root);
@@ -101,6 +115,20 @@ test("evidence generation and immediate verification pass", async (t) => {
   await writeEvidence(root, ".release-proof/evidence.json", evidence);
   const stored = await readEvidence(root, ".release-proof/evidence.json");
   const result = await verifyEvidence(root, config, stored, { now });
+  assert.equal(result.result, "pass");
+  assert.equal(result.commitSha, git(root, ["rev-parse", "HEAD"]));
+});
+
+test("CLI evidence remains verifiable without a matching gitignore rule", async (t) => {
+  const root = createRepository(t);
+  write(root, ".gitignore", "\n");
+  git(root, ["add", ".gitignore"]);
+  git(root, ["commit", "-m", "remove generated evidence ignore"]);
+  const config = await loadConfig(root);
+  const ignoreGitPaths = [".release-proof/evidence.json"];
+  const evidence = await buildEvidence(root, config, { ignoreGitPaths });
+  await writeEvidence(root, ignoreGitPaths[0], evidence);
+  const result = await verifyEvidence(root, config, evidence, { ignoreGitPaths });
   assert.equal(result.result, "pass");
   assert.equal(result.commitSha, git(root, ["rev-parse", "HEAD"]));
 });

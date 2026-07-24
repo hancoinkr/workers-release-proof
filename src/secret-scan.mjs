@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { basename, sep } from "node:path";
+import { basename, extname, sep } from "node:path";
 import { ProofError } from "./errors.mjs";
 import { listTrackedFiles } from "./git.mjs";
 import { resolveReadableFileInside, walkRegularFiles } from "./path-safety.mjs";
@@ -15,8 +15,18 @@ const contentRules = [
   { code: "TELEGRAM_BOT_TOKEN", pattern: /\b[0-9]{8,10}:AA[A-Za-z0-9_-]{20,}\b/g },
 ];
 
-const genericAssignment = /\b(password|passwd|secret|token|api[_-]?key|apikey|client[_-]?secret)\b\s*[:=]\s*["']?([^"'\s,;}{]+)/gi;
-const placeholder = /^(?:|example|sample|test|testing|dummy|placeholder|changeme|replace[-_]?me|your[-_].*|x{3,}|<.*>|\$\{.*\}|process\.env.*)$/i;
+const quotedAssignment = /\b(password|passwd|secret|token|api[_-]?key|apikey|client[_-]?secret)\b\s*[:=]\s*(["'`])([^\r\n]*?)\2/gi;
+const unquotedAssignment = /\b(password|passwd|secret|token|api[_-]?key|apikey|client[_-]?secret)\b\s*[:=]\s*([^\s,;}{#]+)/gi;
+const unquotedCredentialExtensions = new Set([
+  ".conf",
+  ".ini",
+  ".properties",
+  ".toml",
+  ".txt",
+  ".yaml",
+  ".yml",
+]);
+const placeholder = /^(?:|(?:example|sample|test(?:ing)?|dummy|fake|mock|placeholder|changeme|replace[-_]?me|your|unconfigured)(?:[-_].*)?|x{3,}|<.*>|\$\{.*\}|process\.env.*)$/i;
 
 function normalized(path) {
   return path.split(sep).join("/");
@@ -37,6 +47,46 @@ function lineNumber(source, index) {
   let line = 1;
   for (let cursor = 0; cursor < index; cursor += 1) if (source.charCodeAt(cursor) === 10) line += 1;
   return line;
+}
+
+function credentialValue(value) {
+  const normalizedValue = String(value || "").trim().replace(/[)\]`]+$/, "");
+  if (normalizedValue.length < 8 || placeholder.test(normalizedValue)) return null;
+  return normalizedValue;
+}
+
+function isTestOrFixture(relative) {
+  return /(?:^|\/)(?:__tests__|fixtures?|tests?)(?:\/|$)/i.test(relative)
+    || /\.(?:spec|test)\.[^.]+$/i.test(relative);
+}
+
+function collectAssignmentFindings(source, relative) {
+  const findings = [];
+  if (isTestOrFixture(relative)) return findings;
+
+  quotedAssignment.lastIndex = 0;
+  for (const match of source.matchAll(quotedAssignment)) {
+    if (credentialValue(match[3])) {
+      findings.push({
+        code: "HARDCODED_CREDENTIAL",
+        file: relative,
+        line: lineNumber(source, match.index || 0),
+      });
+    }
+  }
+
+  if (!unquotedCredentialExtensions.has(extname(relative).toLowerCase())) return findings;
+  unquotedAssignment.lastIndex = 0;
+  for (const match of source.matchAll(unquotedAssignment)) {
+    if (credentialValue(match[2])) {
+      findings.push({
+        code: "HARDCODED_CREDENTIAL",
+        file: relative,
+        line: lineNumber(source, match.index || 0),
+      });
+    }
+  }
+  return findings;
 }
 
 async function candidateFiles(root) {
@@ -76,13 +126,7 @@ export async function scanSecrets(root, options = {}) {
       }
     }
 
-    genericAssignment.lastIndex = 0;
-    for (const match of source.matchAll(genericAssignment)) {
-      const value = String(match[2] || "").replace(/[)\]`]+$/, "");
-      if (!placeholder.test(value) && value.length >= 8) {
-        findings.push({ code: "HARDCODED_CREDENTIAL", file: relative, line: lineNumber(source, match.index || 0) });
-      }
-    }
+    findings.push(...collectAssignmentFindings(source, relative));
   }
 
   return findings.sort((a, b) => `${a.file}:${a.line}:${a.code}`.localeCompare(`${b.file}:${b.line}:${b.code}`, "en"));
