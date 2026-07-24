@@ -45,7 +45,8 @@ Any missing or mismatched fact fails the gate.
 ## Quick start
 
 ```bash
-npm install --save-dev github:hancoinkr/workers-release-proof#v0.1.3
+npm install --save-dev \
+  https://github.com/hancoinkr/workers-release-proof/releases/download/v0.1.3/workers-release-proof-0.1.3.tgz
 cp node_modules/workers-release-proof/release-proof.config.example.json \
   release-proof.config.json
 npx workers-release-proof scan
@@ -55,8 +56,10 @@ npx workers-release-proof verify
 
 The default evidence file is `.release-proof/evidence.json`.
 
-The package is currently distributed from pinned GitHub releases, not the npm
-registry. Release tarballs receive a public GitHub artifact attestation.
+The package is currently distributed from pinned HTTPS GitHub release
+tarballs, not the npm registry. This avoids requiring GitHub SSH credentials
+and records an integrity value in `package-lock.json`. Release tarballs receive
+a public GitHub artifact attestation.
 
 ## Configuration
 
