@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "BitcoinKevin",
+    "publicUrl": "https://bitcoinkevin.com/",
+    "relationship": "first-party-maintainer-operated",
+    "sourceVisibility": "private"
+  },
+  "proof": {
+    "toolVersion": "0.1.3",
+    "result": "pass",
+    "generatedAt": "2026-07-24T08:48:22.528Z",
+    "evidenceSha256": "4b98d731131ff3355bdbd373cf5d04f654a7fc1bfc34568af0b38f6943830168",
+    "commitSha": "ae5aa4d95af33eb7792831ca0655201620d2234d",
+    "cleanWorktree": true,
+    "artifact": {
+      "fileCount": 245,
+      "totalBytes": 12900909,
+      "sha256": "e0685f64b411def747395da89adcfd2f0c79ed923773f400c20c75165db76784"
+    },
+    "migrations": {
+      "count": 27,
+      "sha256": "632dba13af9427cab73f75e4c4354fcfbd7f88e7c22c05f6eb9a3aef1f177a43"
+    },
+    "wrangler": {
+      "bindingCount": 2,
+      "variableNameCount": 9,
+      "sha256": "d7a1c12f195a45513cff3baa8ff8f91f7fa7ac755c9be613687c2113a20fd00e"
+    }
+  },
+  "health": {
+    "url": "https://bitcoinkevin.com/api/v1/health",
+    "expectedStatus": 200,
+    "assertions": [
+      {
+        "path": "data.status",
+        "equals": "ok"
+      },
+      {
+        "path": "data.release.commitSha",
+        "equals": "ae5aa4d95af33eb7792831ca0655201620d2234d"
+      },
+      {
+        "path": "data.release.artifactSha256",
+        "equals": "8c10d385e88a4ba509857ab693faf733c9a94ec531dfff809cc096f69dfe89f0"
+      },
+      {
+        "path": "data.services.d1",
+        "equals": true
+      },
+      {
+        "path": "data.services.r2",
+        "equals": true
+      }
+    ]
+  }
+}

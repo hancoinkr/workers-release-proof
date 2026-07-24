@@ -23,7 +23,7 @@ export async function collectReleaseState(root, config, options = {}) {
   const now = options.now ?? Date.now();
   const findings = await scanSecrets(root, config.secretScan);
   assertNoSecrets(findings);
-  const repository = collectGitState(root);
+  const repository = collectGitState(root, { ignorePaths: options.ignoreGitPaths });
   invariant(!config.requireCleanWorktree || repository.clean, "DIRTY_WORKTREE", `Release evidence requires a clean worktree; found ${repository.dirtyCount} changed path(s)`);
 
   const [artifact, migrations, wrangler] = await Promise.all([
@@ -56,7 +56,7 @@ export async function buildEvidence(root, config, options = {}) {
   const evidence = {
     artifact: state.artifact,
     generatedAt: new Date(now).toISOString(),
-    generator: { name: "workers-release-proof", version: "0.1.2" },
+    generator: { name: "workers-release-proof", version: "0.1.3" },
     health: state.health,
     migrations: state.migrations,
     phase: config.phase,

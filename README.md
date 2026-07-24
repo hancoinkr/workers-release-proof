@@ -1,6 +1,7 @@
 # Workers Release Proof
 
 [![CI](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml)
+[![Production reference](https://github.com/hancoinkr/workers-release-proof/actions/workflows/production-reference.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/production-reference.yml)
 [![Release](https://img.shields.io/github/v/release/hancoinkr/workers-release-proof)](https://github.com/hancoinkr/workers-release-proof/releases)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933.svg)](https://nodejs.org/)
@@ -44,7 +45,7 @@ Any missing or mismatched fact fails the gate.
 ## Quick start
 
 ```bash
-npm install --save-dev github:hancoinkr/workers-release-proof#v0.1.2
+npm install --save-dev github:hancoinkr/workers-release-proof#v0.1.3
 cp node_modules/workers-release-proof/release-proof.config.example.json \
   release-proof.config.json
 npx workers-release-proof scan
@@ -117,13 +118,25 @@ Common flags:
 
 ```yaml
 - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-- uses: hancoinkr/workers-release-proof@v0.1.2
+- uses: hancoinkr/workers-release-proof@v0.1.3
   with:
     config: release-proof.config.json
 ```
 
 The action scans tracked files, creates evidence from the checked-out commit,
 and immediately verifies it.
+
+## Production reference
+
+The first maintainer-operated production adoption validates a 245-file Worker
+artifact set, 27 D1 migrations, sanitized Wrangler structure, and a public
+health endpoint for [BitcoinKevin](https://bitcoinkevin.com/). A public,
+redacted receipt and scheduled live verification are documented in
+[docs/production-reference.md](docs/production-reference.md).
+
+This is first-party production use, not independent third-party adoption. The
+distinction is kept explicit until another maintainer publishes a reproducible
+integration.
 
 ## Security properties
 

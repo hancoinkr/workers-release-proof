@@ -5,7 +5,7 @@ import { serializeError } from "./errors.mjs";
 import { scanSecrets } from "./secret-scan.mjs";
 import { verifyEvidence } from "./verify.mjs";
 
-const help = `Workers Release Proof 0.1.2
+const help = `Workers Release Proof 0.1.3
 
 Usage:
   workers-release-proof scan [options]
@@ -65,7 +65,7 @@ export async function runCli(argv = process.argv.slice(2)) {
       return 0;
     }
     if (options.command === "version") {
-      process.stdout.write("0.1.2\n");
+      process.stdout.write("0.1.3\n");
       return 0;
     }
     const config = await loadConfig(options.root, options.config);
@@ -81,7 +81,9 @@ export async function runCli(argv = process.argv.slice(2)) {
     }
 
     if (options.command === "inspect") {
-      const evidence = await buildEvidence(options.root, config);
+      const evidence = await buildEvidence(options.root, config, {
+        ignoreGitPaths: [options.evidence],
+      });
       await writeEvidence(options.root, options.evidence, evidence);
       printResult({
         artifactSha256: evidence.artifact.sha256,
@@ -95,7 +97,9 @@ export async function runCli(argv = process.argv.slice(2)) {
 
     if (options.command === "verify") {
       const evidence = await readEvidence(options.root, options.evidence);
-      const result = await verifyEvidence(options.root, config, evidence);
+      const result = await verifyEvidence(options.root, config, evidence, {
+        ignoreGitPaths: [options.evidence],
+      });
       printResult(result, options.json);
       return 0;
     }
