@@ -8,6 +8,7 @@
     "migrations"
   ],
   "wranglerConfig": "wrangler.jsonc",
+  "wranglerEnvironment": null,
   "maxEvidenceAgeMinutes": 60,
   "requireCleanWorktree": true,
   "healthChecks": [],

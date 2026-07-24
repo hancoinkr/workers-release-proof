@@ -24,7 +24,7 @@ test("CLI prints version", (t) => {
   const root = createRepository(t);
   const result = run(root, ["--version"]);
   assert.equal(result.status, 0);
-  assert.equal(result.stdout.trim(), "0.1.1");
+  assert.equal(result.stdout.trim(), "0.1.2");
 });
 
 test("CLI scan returns machine-readable success", (t) => {

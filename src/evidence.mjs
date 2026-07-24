@@ -29,7 +29,7 @@ export async function collectReleaseState(root, config, options = {}) {
   const [artifact, migrations, wrangler] = await Promise.all([
     hashDirectories(root, config.artifactDirectories),
     collectMigrations(root, config.migrationDirectories),
-    collectWranglerManifest(root, config.wranglerConfig),
+    collectWranglerManifest(root, config.wranglerConfig, config.wranglerEnvironment),
   ]);
   const release = {
     artifactSha256: artifact.sha256,
@@ -56,7 +56,7 @@ export async function buildEvidence(root, config, options = {}) {
   const evidence = {
     artifact: state.artifact,
     generatedAt: new Date(now).toISOString(),
-    generator: { name: "workers-release-proof", version: "0.1.1" },
+    generator: { name: "workers-release-proof", version: "0.1.2" },
     health: state.health,
     migrations: state.migrations,
     phase: config.phase,

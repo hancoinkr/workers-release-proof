@@ -26,10 +26,14 @@ file changes the result.
 
 ## Sanitization
 
-Wrangler configuration is parsed as JSONC. The evidence contains binding types,
-binding names, compatibility settings, variable names, and a manifest digest.
-It does not contain identifiers, routes, variable values, or environment
-values.
+Wrangler configuration is parsed as JSONC. The evidence contains the selected
+environment, binding types, binding names, one-way resource-reference digests,
+compatibility settings, variable names, and a manifest digest. It does not
+contain raw identifiers, routes, variable values, or environment values.
+
+Named environments are resolved explicitly. Because Wrangler bindings are not
+inherited, a selected environment uses only bindings and variable names defined
+inside that environment while inheriting compatible runtime settings.
 
 ## Observation
 

@@ -7,6 +7,9 @@ const rootPath = root.pathname;
 const ignored = new Set([".git", "node_modules", ".release-proof"]);
 const required = [
   ".github/workflows/ci.yml",
+  ".github/workflows/release.yml",
+  ".github/CODEOWNERS",
+  ".github/dependabot.yml",
   "action.yml",
   "CHANGELOG.md",
   "CODE_OF_CONDUCT.md",
@@ -14,6 +17,7 @@ const required = [
   "GOVERNANCE.md",
   "LICENSE",
   "README.md",
+  "ROADMAP.md",
   "SECURITY.md",
   "SUPPORT.md",
   "docs/architecture.md",

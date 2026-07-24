@@ -13,6 +13,7 @@ const defaults = {
   schemaVersion: 1,
   secretScan: { exclude: [] },
   wranglerConfig: "wrangler.jsonc",
+  wranglerEnvironment: null,
 };
 
 function stringArray(value, label) {
@@ -69,6 +70,7 @@ export async function loadConfig(root, relativePath = "release-proof.config.json
   invariant(Number.isFinite(config.maxEvidenceAgeMinutes) && config.maxEvidenceAgeMinutes > 0, "INVALID_CONFIG", "maxEvidenceAgeMinutes must be positive");
   invariant(typeof config.requireCleanWorktree === "boolean", "INVALID_CONFIG", "requireCleanWorktree must be boolean");
   invariant(typeof config.wranglerConfig === "string" && config.wranglerConfig.length > 0, "INVALID_CONFIG", "wranglerConfig is required");
+  invariant(config.wranglerEnvironment === null || (typeof config.wranglerEnvironment === "string" && config.wranglerEnvironment.length > 0), "INVALID_CONFIG", "wranglerEnvironment must be null or a non-empty string");
   invariant(config.rollbackRecord === null || (typeof config.rollbackRecord === "string" && config.rollbackRecord.length > 0), "INVALID_CONFIG", "rollbackRecord must be null or a relative path");
 
   config.artifactDirectories = stringArray(config.artifactDirectories, "artifactDirectories");

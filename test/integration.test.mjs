@@ -18,7 +18,20 @@ test("configuration applies safe defaults", async (t) => {
   const config = await loadConfig(root);
   assert.equal(config.phase, "predeploy");
   assert.equal(config.requireCleanWorktree, true);
+  assert.equal(config.wranglerEnvironment, null);
   assert.deepEqual(config.healthChecks, []);
+});
+
+test("configuration rejects an empty Wrangler environment", async (t) => {
+  const root = createRepository(t);
+  write(root, "release-proof.config.json", JSON.stringify({
+    artifactDirectories: ["dist"],
+    migrationDirectories: ["migrations"],
+    schemaVersion: 1,
+    wranglerConfig: "wrangler.jsonc",
+    wranglerEnvironment: "",
+  }));
+  await assert.rejects(loadConfig(root), { code: "INVALID_CONFIG" });
 });
 
 test("production configuration requires health and rollback evidence", async (t) => {

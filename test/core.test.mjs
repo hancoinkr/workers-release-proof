@@ -132,11 +132,72 @@ test("Wrangler manifest contains names but not values or identifiers", async (t)
   }`);
   const result = await collectWranglerManifest(root, "wrangler.jsonc");
   const serialized = JSON.stringify(result);
-  assert.deepEqual(result.bindings, [{ binding: "DB", type: "d1" }]);
+  assert.equal(result.bindings[0].binding, "DB");
+  assert.equal(result.bindings[0].type, "d1");
+  assert.match(result.bindings[0].referenceSha256, /^[a-f0-9]{64}$/);
+  assert.equal(result.environment, null);
   assert.deepEqual(result.variableNames, ["PUBLIC_MODE"]);
   assert.equal(serialized.includes("private-name"), false);
   assert.equal(serialized.includes("private-id"), false);
   assert.equal(serialized.includes("private-value"), false);
+});
+
+test("Wrangler manifest changes when a resource reference changes", async (t) => {
+  const root = temporaryDirectory(t);
+  write(root, "wrangler.jsonc", `{
+    "d1_databases": [{
+      "binding": "DB",
+      "database_name": "example",
+      "database_id": "first-id"
+    }]
+  }`);
+  const first = await collectWranglerManifest(root, "wrangler.jsonc");
+  write(root, "wrangler.jsonc", `{
+    "d1_databases": [{
+      "binding": "DB",
+      "database_name": "example",
+      "database_id": "second-id"
+    }]
+  }`);
+  const second = await collectWranglerManifest(root, "wrangler.jsonc");
+  assert.notEqual(first.sha256, second.sha256);
+  assert.notEqual(first.bindings[0].referenceSha256, second.bindings[0].referenceSha256);
+});
+
+test("Wrangler manifest uses non-inherited bindings from a named environment", async (t) => {
+  const root = temporaryDirectory(t);
+  write(root, "wrangler.jsonc", `{
+    "compatibility_date": "2026-01-01",
+    "d1_databases": [{
+      "binding": "TOP_LEVEL_DB",
+      "database_id": "top-level-id"
+    }],
+    "env": {
+      "production": {
+        "d1_databases": [{
+          "binding": "PRODUCTION_DB",
+          "database_id": "production-id"
+        }],
+        "vars": {
+          "DEPLOY_ENV": "production"
+        }
+      }
+    }
+  }`);
+  const result = await collectWranglerManifest(root, "wrangler.jsonc", "production");
+  assert.equal(result.environment, "production");
+  assert.deepEqual(result.bindings.map((item) => item.binding), ["PRODUCTION_DB"]);
+  assert.deepEqual(result.variableNames, ["DEPLOY_ENV"]);
+  assert.equal(result.compatibilityDate, "2026-01-01");
+});
+
+test("Wrangler manifest rejects an undefined environment", async (t) => {
+  const root = temporaryDirectory(t);
+  write(root, "wrangler.jsonc", '{"env":{}}');
+  await assert.rejects(
+    collectWranglerManifest(root, "wrangler.jsonc", "production"),
+    { code: "WRANGLER_ENVIRONMENT_MISSING" },
+  );
 });
 
 test("secret scan detects a token without returning its value", async (t) => {

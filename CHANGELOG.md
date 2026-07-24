@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 - 2026-07-24
+
+- Replaced unavailable npm-registry instructions with a pinned GitHub install.
+- Pinned the documented GitHub Action to an existing release.
+- Added release tarballs with GitHub artifact attestations.
+- Added CODEOWNERS, Dependabot, and a public roadmap.
+- Pinned workflow actions to reviewed full commit SHAs.
+- Bound sanitized Wrangler evidence to named environments and hashed resource
+  references.
+
 ## 0.1.1 - 2026-07-24
 
 - Restored the canonical Apache-2.0 license text.

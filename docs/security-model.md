@@ -21,7 +21,8 @@ rollback metadata.
 - Clean-worktree enforcement by default.
 - Bounded health responses, strict JSON parsing, query-free URLs, redirects
   disabled, and request timeouts.
-- Sanitized Wrangler collection that omits values and resource identifiers.
+- Sanitized Wrangler collection that omits values and raw resource identifiers
+  while retaining one-way resource-reference digests.
 - Secret findings report only rule, path, and line.
 - Atomic evidence writes with owner-only permissions where supported.
 - Freshness checks for evidence and rollback observations.

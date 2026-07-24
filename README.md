@@ -1,6 +1,7 @@
 # Workers Release Proof
 
 [![CI](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hancoinkr/workers-release-proof)](https://github.com/hancoinkr/workers-release-proof/releases)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933.svg)](https://nodejs.org/)
 
@@ -43,7 +44,7 @@ Any missing or mismatched fact fails the gate.
 ## Quick start
 
 ```bash
-npm install --save-dev workers-release-proof
+npm install --save-dev github:hancoinkr/workers-release-proof#v0.1.2
 cp node_modules/workers-release-proof/release-proof.config.example.json \
   release-proof.config.json
 npx workers-release-proof scan
@@ -53,6 +54,9 @@ npx workers-release-proof verify
 
 The default evidence file is `.release-proof/evidence.json`.
 
+The package is currently distributed from pinned GitHub releases, not the npm
+registry. Release tarballs receive a public GitHub artifact attestation.
+
 ## Configuration
 
 ```json
@@ -61,6 +65,7 @@ The default evidence file is `.release-proof/evidence.json`.
   "artifactDirectories": ["dist", ".wrangler/dry-run"],
   "migrationDirectories": ["migrations"],
   "wranglerConfig": "wrangler.jsonc",
+  "wranglerEnvironment": "production",
   "maxEvidenceAgeMinutes": 60,
   "requireCleanWorktree": true,
   "healthChecks": [
@@ -86,6 +91,9 @@ The default evidence file is `.release-proof/evidence.json`.
 
 `$commitSha` and `$artifactSha256` resolve from the candidate release. Health
 responses are hashed; response bodies are not written to the evidence file.
+Set `wranglerEnvironment` when deploying with Wrangler `--env`; bindings are
+resolved from that named environment and raw resource identifiers remain
+private.
 
 ## Commands
 
@@ -108,7 +116,8 @@ Common flags:
 ## GitHub Action
 
 ```yaml
-- uses: hancoinkr/workers-release-proof@v0
+- uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+- uses: hancoinkr/workers-release-proof@v0.1.2
   with:
     config: release-proof.config.json
 ```
@@ -141,7 +150,8 @@ repository.
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and
-[GOVERNANCE.md](GOVERNANCE.md).
+[GOVERNANCE.md](GOVERNANCE.md). Planned work is tracked in
+[ROADMAP.md](ROADMAP.md).
 
 ## License
 
