@@ -1,0 +1,29 @@
+name: Feature request
+description: Propose an additive release-evidence capability.
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Release problem
+      description: What release fact cannot be proven today?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Proposed evidence
+      description: Describe inputs, validation, output, and failure behavior.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety
+      options:
+        - label: The proposal does not require storing secret values.
+          required: true
+        - label: The proposal defines fail-closed behavior.
+          required: true

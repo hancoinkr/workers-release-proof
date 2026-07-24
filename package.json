@@ -1,0 +1,47 @@
+{
+  "name": "workers-release-proof",
+  "version": "0.1.0",
+  "description": "Fail-closed, content-addressed release evidence for Cloudflare Workers.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "private": false,
+  "author": "hancoinkr",
+  "homepage": "https://github.com/hancoinkr/workers-release-proof#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hancoinkr/workers-release-proof.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hancoinkr/workers-release-proof/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "workers-release-proof": "./bin/workers-release-proof.mjs"
+  },
+  "files": [
+    "action.yml",
+    "bin",
+    "src",
+    "release-proof.config.example.json",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "keywords": [
+    "cloudflare-workers",
+    "release",
+    "supply-chain",
+    "provenance",
+    "d1",
+    "github-actions",
+    "ci",
+    "deployment"
+  ],
+  "scripts": {
+    "check": "node scripts/quality.mjs && npm test && npm run smoke && npm pack --dry-run",
+    "test": "node --test test/*.test.mjs",
+    "smoke": "node bin/workers-release-proof.mjs help && node bin/workers-release-proof.mjs scan --root examples/minimal --config release-proof.config.json"
+  }
+}

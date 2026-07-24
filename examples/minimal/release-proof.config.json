@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "phase": "predeploy",
+  "artifactDirectories": [
+    "dist"
+  ],
+  "migrationDirectories": [
+    "migrations"
+  ],
+  "wranglerConfig": "wrangler.jsonc",
+  "maxEvidenceAgeMinutes": 60,
+  "requireCleanWorktree": false,
+  "healthChecks": [],
+  "secretScan": {
+    "exclude": []
+  }
+}

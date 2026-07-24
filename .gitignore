@@ -1,0 +1,11 @@
+node_modules/
+.release-proof/
+*.tgz
+.DS_Store
+.env
+.env.*
+!.env.example
+coverage/
+dist/
+!examples/minimal/dist/
+!examples/minimal/dist/**

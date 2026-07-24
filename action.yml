@@ -1,0 +1,62 @@
+name: Workers Release Proof
+description: Fail closed when a Cloudflare Workers release cannot be tied to reviewed source and release state.
+author: hancoinkr
+
+branding:
+  color: orange
+  icon: shield
+
+inputs:
+  root:
+    description: Repository root.
+    default: .
+    required: false
+  config:
+    description: Configuration path relative to the repository root.
+    default: release-proof.config.json
+    required: false
+  evidence:
+    description: Evidence path relative to the repository root.
+    default: .release-proof/evidence.json
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Scan tracked files
+      shell: bash
+      env:
+        WRP_ROOT: ${{ inputs.root }}
+        WRP_CONFIG: ${{ inputs.config }}
+      run: >-
+        node "$GITHUB_ACTION_PATH/bin/workers-release-proof.mjs"
+        scan
+        --root "$WRP_ROOT"
+        --config "$WRP_CONFIG"
+        --json
+    - name: Create release evidence
+      shell: bash
+      env:
+        WRP_ROOT: ${{ inputs.root }}
+        WRP_CONFIG: ${{ inputs.config }}
+        WRP_EVIDENCE: ${{ inputs.evidence }}
+      run: >-
+        node "$GITHUB_ACTION_PATH/bin/workers-release-proof.mjs"
+        inspect
+        --root "$WRP_ROOT"
+        --config "$WRP_CONFIG"
+        --evidence "$WRP_EVIDENCE"
+        --json
+    - name: Verify release evidence
+      shell: bash
+      env:
+        WRP_ROOT: ${{ inputs.root }}
+        WRP_CONFIG: ${{ inputs.config }}
+        WRP_EVIDENCE: ${{ inputs.evidence }}
+      run: >-
+        node "$GITHUB_ACTION_PATH/bin/workers-release-proof.mjs"
+        verify
+        --root "$WRP_ROOT"
+        --config "$WRP_CONFIG"
+        --evidence "$WRP_EVIDENCE"
+        --json

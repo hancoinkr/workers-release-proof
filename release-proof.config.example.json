@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "artifactDirectories": [
+    "dist",
+    ".wrangler/dry-run"
+  ],
+  "migrationDirectories": [
+    "migrations"
+  ],
+  "wranglerConfig": "wrangler.jsonc",
+  "maxEvidenceAgeMinutes": 60,
+  "requireCleanWorktree": true,
+  "healthChecks": [],
+  "secretScan": {
+    "exclude": [
+      "test/fixtures/"
+    ]
+  }
+}
