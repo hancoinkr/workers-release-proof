@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Usage questions
+    url: https://github.com/hancoinkr/workers-release-proof/discussions/categories/q-a
+    about: Ask setup and integration questions without publishing private release data.
+  - name: Security report
+    url: https://github.com/hancoinkr/workers-release-proof/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue.

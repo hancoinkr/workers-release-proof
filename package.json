@@ -25,6 +25,7 @@
     "bin",
     "schemas",
     "src",
+    "templates",
     "release-proof.config.example.json",
     "README.md",
     "LICENSE",

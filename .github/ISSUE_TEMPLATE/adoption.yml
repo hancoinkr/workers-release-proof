@@ -1,0 +1,59 @@
+name: Public adoption receipt
+description: Register a reproducible Workers Release Proof integration.
+title: "[Adoption] "
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for publishing reproducible release evidence. Do not include
+        credentials, private endpoints, customer data, or raw resource IDs.
+  - type: input
+    id: repository
+    attributes:
+      label: Public repository
+      description: Link to the source and release-proof configuration.
+      placeholder: https://github.com/owner/project
+    validations:
+      required: true
+  - type: input
+    id: receipt
+    attributes:
+      label: Public receipt or successful workflow
+      placeholder: https://github.com/owner/project/actions/runs/...
+    validations:
+      required: true
+  - type: input
+    id: deployment
+    attributes:
+      label: Public deployment or health endpoint
+      placeholder: https://example.workers.dev/health
+    validations:
+      required: true
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: Maintainer relationship
+      description: This keeps first-party and independent adoption distinguishable.
+      options:
+        - Independent project maintainer
+        - Same maintainer or affiliated project
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the exact public commands another maintainer can run.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Publication safety
+      options:
+        - label: The linked evidence contains no credentials or private production data.
+          required: true
+        - label: Raw resource identifiers and variable values are excluded.
+          required: true

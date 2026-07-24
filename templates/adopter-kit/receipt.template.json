@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "PROJECT_NAME",
+    "publicUrl": "https://PROJECT.example/",
+    "sourceUrl": "https://github.com/OWNER/PROJECT",
+    "relationship": "independent-or-affiliated",
+    "sourceVisibility": "public"
+  },
+  "proof": {
+    "toolVersion": "0.2.0",
+    "result": "pass",
+    "generatedAt": "ISO-8601_TIMESTAMP",
+    "commitSha": "FULL_GIT_COMMIT",
+    "evidenceSha256": "SHA256",
+    "artifact": {
+      "fileCount": 0,
+      "sha256": "SHA256"
+    },
+    "migrations": {
+      "count": 0,
+      "sha256": "SHA256"
+    }
+  },
+  "health": {
+    "url": "https://PROJECT.example/health",
+    "expectedStatus": 200,
+    "assertions": []
+  }
+}
