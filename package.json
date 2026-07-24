@@ -1,6 +1,6 @@
 {
   "name": "workers-release-proof",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fail-closed, content-addressed release evidence for Cloudflare Workers.",
   "type": "module",
   "license": "Apache-2.0",
