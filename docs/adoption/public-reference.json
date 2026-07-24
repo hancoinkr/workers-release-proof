@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "Workers Release Proof Public Reference",
+    "relationship": "first-party-maintainer-operated",
+    "sourceVisibility": "public",
+    "sourceUrl": "https://github.com/hancoinkr/workers-release-proof/tree/main/examples/public-reference",
+    "publicUrl": "PENDING_DEPLOYMENT"
+  },
+  "proof": {
+    "toolVersion": "0.2.0",
+    "result": "pending",
+    "generatedAt": null,
+    "commitSha": null,
+    "artifactSha256": null,
+    "migrationsSha256": null,
+    "currentDeploymentId": null,
+    "previousDeploymentId": null
+  },
+  "health": {
+    "url": "PENDING_DEPLOYMENT",
+    "expectedStatus": 200,
+    "assertions": []
+  }
+}

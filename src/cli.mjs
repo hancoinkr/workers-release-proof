@@ -5,7 +5,7 @@ import { serializeError } from "./errors.mjs";
 import { scanSecrets } from "./secret-scan.mjs";
 import { verifyEvidence } from "./verify.mjs";
 
-const help = `Workers Release Proof 0.1.3
+const help = `Workers Release Proof 0.2.0
 
 Usage:
   workers-release-proof scan [options]
@@ -65,7 +65,7 @@ export async function runCli(argv = process.argv.slice(2)) {
       return 0;
     }
     if (options.command === "version") {
-      process.stdout.write("0.1.3\n");
+      process.stdout.write("0.2.0\n");
       return 0;
     }
     const config = await loadConfig(options.root, options.config);

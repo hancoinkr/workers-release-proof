@@ -1,0 +1,23 @@
+{
+  "compatibility_date": "2026-07-24",
+  "d1_databases": [
+    { "binding": "TOP_LEVEL_DB", "database_id": "top-level" }
+  ],
+  "vars": {
+    "TOP_LEVEL": "not-inherited"
+  },
+  "env": {
+    "production": {
+      "d1_databases": [
+        { "binding": "PRODUCTION_DB", "database_id": "production" }
+      ],
+      "assets": {
+        "binding": "PRODUCTION_ASSETS",
+        "directory": "./public"
+      },
+      "vars": {
+        "DEPLOY_ENV": "production"
+      }
+    }
+  }
+}

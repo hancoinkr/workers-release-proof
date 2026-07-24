@@ -1,6 +1,6 @@
 {
   "name": "workers-release-proof",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Fail-closed, content-addressed release evidence for Cloudflare Workers.",
   "type": "module",
   "license": "Apache-2.0",
@@ -23,6 +23,7 @@
   "files": [
     "action.yml",
     "bin",
+    "schemas",
     "src",
     "release-proof.config.example.json",
     "README.md",
@@ -42,7 +43,12 @@
   "scripts": {
     "check": "node scripts/quality.mjs && npm test && npm run smoke && npm pack --dry-run",
     "reference:verify": "node scripts/verify-production-reference.mjs",
+    "reference:build": "node scripts/build-public-reference.mjs",
+    "reference:live": "node scripts/verify-public-reference.mjs",
     "test": "node --test test/*.test.mjs",
     "smoke": "node bin/workers-release-proof.mjs help && node bin/workers-release-proof.mjs scan --root examples/minimal --config release-proof.config.json"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0"
   }
 }

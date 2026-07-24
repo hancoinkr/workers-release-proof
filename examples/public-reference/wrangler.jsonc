@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "workers-release-proof-reference",
+  "main": "dist/index.js",
+  "compatibility_date": "2026-07-24",
+  "workers_dev": true,
+  "preview_urls": true,
+  "vars": {
+    "RELEASE_COMMIT_SHA": "unconfigured",
+    "RELEASE_ARTIFACT_SHA256": "unconfigured",
+    "RELEASE_MIGRATIONS_SHA256": "unconfigured"
+  },
+  "version_metadata": {
+    "binding": "WORKER_VERSION"
+  }
+}

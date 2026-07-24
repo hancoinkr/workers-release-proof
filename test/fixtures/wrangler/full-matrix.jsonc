@@ -1,0 +1,48 @@
+{
+  "compatibility_date": "2026-07-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "example", "database_id": "d1-id" }
+  ],
+  "r2_buckets": [
+    { "binding": "BUCKET", "bucket_name": "example-bucket" }
+  ],
+  "kv_namespaces": [
+    { "binding": "KV", "id": "kv-id" }
+  ],
+  "services": [
+    { "binding": "SERVICE", "service": "example-service", "environment": "production" }
+  ],
+  "analytics_engine_datasets": [
+    { "binding": "ANALYTICS", "dataset": "example-dataset" }
+  ],
+  "vectorize": [
+    { "binding": "VECTOR", "index_name": "example-index" }
+  ],
+  "hyperdrive": [
+    { "binding": "HYPERDRIVE", "id": "hyperdrive-id" }
+  ],
+  "mtls_certificates": [
+    { "binding": "CERTIFICATE", "certificate_id": "certificate-id" }
+  ],
+  "queues": {
+    "producers": [
+      { "binding": "QUEUE", "queue": "example-queue" }
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "binding": "OBJECT", "class_name": "ExampleObject", "script_name": "example-worker" }
+    ]
+  },
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./public"
+  },
+  "vars": {
+    "PUBLIC_MODE": "example"
+  },
+  "version_metadata": {
+    "binding": "VERSION"
+  }
+}

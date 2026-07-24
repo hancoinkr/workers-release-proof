@@ -56,7 +56,7 @@ export async function buildEvidence(root, config, options = {}) {
   const evidence = {
     artifact: state.artifact,
     generatedAt: new Date(now).toISOString(),
-    generator: { name: "workers-release-proof", version: "0.1.3" },
+    generator: { name: "workers-release-proof", version: "0.2.0" },
     health: state.health,
     migrations: state.migrations,
     phase: config.phase,
