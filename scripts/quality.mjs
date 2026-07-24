@@ -10,6 +10,8 @@ const required = [
   ".github/workflows/production-reference.yml",
   ".github/workflows/public-reference.yml",
   ".github/workflows/release.yml",
+  ".github/ISSUE_TEMPLATE/adoption.yml",
+  ".github/ISSUE_TEMPLATE/config.yml",
   ".github/CODEOWNERS",
   ".github/dependabot.yml",
   "action.yml",
@@ -22,9 +24,13 @@ const required = [
   "ROADMAP.md",
   "SECURITY.md",
   "SUPPORT.md",
+  "assets/social-preview.png",
+  "assets/social-preview.svg",
   "docs/architecture.md",
   "docs/adoption/bitcoinkevin.json",
   "docs/adoption/public-reference.json",
+  "docs/adoption-guide.md",
+  "docs/compatibility-policy.md",
   "docs/json-schemas.md",
   "docs/public-reference.md",
   "docs/release-attestations.md",
@@ -37,6 +43,10 @@ const required = [
   "scripts/verify-public-reference.mjs",
   "schemas/config-v1.schema.json",
   "schemas/evidence-v1.schema.json",
+  "templates/adopter-kit/README.md",
+  "templates/adopter-kit/receipt.template.json",
+  "templates/adopter-kit/release-proof.config.json",
+  "templates/adopter-kit/release-proof.yml",
 ];
 
 function filesBelow(directory) {

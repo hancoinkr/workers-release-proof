@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hancoinkr/workers-release-proof/v0.2.0/schemas/config-v1.schema.json",
+  "schemaVersion": 1,
+  "artifactDirectories": [
+    "dist"
+  ],
+  "migrationDirectories": [
+    "migrations"
+  ],
+  "wranglerConfig": "wrangler.jsonc",
+  "wranglerEnvironment": null,
+  "phase": "predeploy",
+  "maxEvidenceAgeMinutes": 60,
+  "requireCleanWorktree": true,
+  "healthChecks": [],
+  "secretScan": {
+    "exclude": []
+  }
+}

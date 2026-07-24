@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Added a copyable adopter kit and public adoption-receipt issue form.
+- Published explicit compatibility, deprecation, support, and security response
+  targets.
+- Added a repository social preview asset and safer issue-routing links.
+
 ## 0.2.0 - 2026-07-24
 
 - Published Draft 2020-12 schemas for configuration and evidence.

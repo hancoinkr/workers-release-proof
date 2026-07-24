@@ -156,6 +156,17 @@ fixture, live endpoint, and postdeploy receipt. It requires no paid resource or
 private source to reproduce. The deployment is live at
 [workers-release-proof-reference.thatmean8.workers.dev](https://workers-release-proof-reference.thatmean8.workers.dev/).
 
+## Adopt the gate
+
+The copyable [adopter kit](templates/adopter-kit/README.md) contains a pinned
+pull-request workflow, configuration, and public receipt template. The
+[adoption guide](docs/adoption-guide.md) defines reproducibility and redaction
+requirements and keeps independent adoption separate from affiliated use.
+
+Published integrations can be registered with the
+[Public adoption receipt](https://github.com/hancoinkr/workers-release-proof/issues/new?template=adoption.yml)
+issue form.
+
 ## Security properties
 
 - Environment-variable values are never read for evidence generation.
@@ -182,7 +193,8 @@ repository.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and
 [GOVERNANCE.md](GOVERNANCE.md). Planned work is tracked in
-[ROADMAP.md](ROADMAP.md).
+[ROADMAP.md](ROADMAP.md). Versioning and support guarantees are defined in
+[docs/compatibility-policy.md](docs/compatibility-policy.md).
 
 ## License
 
