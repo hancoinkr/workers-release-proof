@@ -9,3 +9,5 @@ coverage/
 dist/
 !examples/minimal/dist/
 !examples/minimal/dist/**
+!examples/public-reference/dist/
+!examples/public-reference/dist/**

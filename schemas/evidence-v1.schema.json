@@ -1,0 +1,426 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hancoinkr/workers-release-proof/v0.2.0/schemas/evidence-v1.schema.json",
+  "title": "Workers Release Proof evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact",
+    "generatedAt",
+    "generator",
+    "health",
+    "integrity",
+    "migrations",
+    "phase",
+    "policy",
+    "repository",
+    "rollback",
+    "schemaVersion",
+    "secretScan",
+    "wrangler"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "phase": {
+      "enum": [
+        "predeploy",
+        "production"
+      ]
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "const": "workers-release-proof"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "artifact": {
+      "$ref": "#/$defs/artifact"
+    },
+    "migrations": {
+      "$ref": "#/$defs/migrations"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clean",
+        "commitSha",
+        "dirtyCount"
+      ],
+      "properties": {
+        "clean": {
+          "type": "boolean"
+        },
+        "commitSha": {
+          "$ref": "#/$defs/commitSha"
+        },
+        "dirtyCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "wrangler": {
+      "$ref": "#/$defs/wrangler"
+    },
+    "health": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assertions",
+          "id",
+          "observedStatus",
+          "responseSha256"
+        ],
+        "properties": {
+          "assertions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "path",
+                "result"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "result": {
+                  "const": "pass"
+                }
+              }
+            }
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observedStatus": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "responseSha256": {
+            "$ref": "#/$defs/sha256"
+          }
+        }
+      }
+    },
+    "rollback": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "currentDeploymentId",
+            "observedAt",
+            "previousDeploymentId",
+            "recordSha256"
+          ],
+          "properties": {
+            "currentDeploymentId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "previousDeploymentId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "recordSha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        }
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxEvidenceAgeMinutes",
+        "requireCleanWorktree"
+      ],
+      "properties": {
+        "maxEvidenceAgeMinutes": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "requireCleanWorktree": {
+          "type": "boolean"
+        }
+      }
+    },
+    "secretScan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "findingCount",
+        "result"
+      ],
+      "properties": {
+        "findingCount": {
+          "const": 0
+        },
+        "result": {
+          "const": "pass"
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "sha256"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256-json-v1"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "commitSha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "fileCount",
+        "files",
+        "sha256",
+        "totalBytes"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256-tree-v1"
+        },
+        "fileCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "mode",
+              "path",
+              "sha256",
+              "size"
+            ],
+            "properties": {
+              "mode": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 511
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "totalBytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "migrations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "count",
+        "files",
+        "sha256"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256-migration-manifest-v1"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "sha256",
+              "size"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "wrangler": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "bindings",
+        "compatibilityDate",
+        "compatibilityFlags",
+        "environment",
+        "sha256",
+        "variableNames",
+        "versionMetadataBinding"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256-sanitized-wrangler-v2"
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "binding",
+              "referenceSha256",
+              "type"
+            ],
+            "properties": {
+              "binding": {
+                "type": "string",
+                "minLength": 1
+              },
+              "referenceSha256": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": {
+                "enum": [
+                  "analytics-engine",
+                  "assets",
+                  "d1",
+                  "durable-object",
+                  "hyperdrive",
+                  "kv",
+                  "mtls-certificate",
+                  "queue-producer",
+                  "r2",
+                  "service",
+                  "vectorize"
+                ]
+              }
+            }
+          }
+        },
+        "compatibilityDate": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "compatibilityFlags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "environment": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "variableNames": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "versionMetadataBinding": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

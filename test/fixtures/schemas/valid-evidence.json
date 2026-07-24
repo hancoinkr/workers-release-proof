@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-24T00:00:00.000Z",
+  "phase": "predeploy",
+  "generator": {
+    "name": "workers-release-proof",
+    "version": "0.2.0"
+  },
+  "artifact": {
+    "algorithm": "sha256-tree-v1",
+    "fileCount": 1,
+    "files": [
+      {
+        "mode": 420,
+        "path": "dist/index.js",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "size": 1
+      }
+    ],
+    "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "totalBytes": 1
+  },
+  "migrations": {
+    "algorithm": "sha256-migration-manifest-v1",
+    "count": 1,
+    "files": [
+      {
+        "path": "migrations/0001.sql",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "size": 1
+      }
+    ],
+    "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "repository": {
+    "clean": true,
+    "commitSha": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "dirtyCount": 0
+  },
+  "wrangler": {
+    "bindings": [],
+    "compatibilityDate": "2026-07-24",
+    "compatibilityFlags": [],
+    "environment": null,
+    "variableNames": [],
+    "versionMetadataBinding": null,
+    "algorithm": "sha256-sanitized-wrangler-v2",
+    "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "health": [],
+  "rollback": null,
+  "policy": {
+    "maxEvidenceAgeMinutes": 60,
+    "requireCleanWorktree": true
+  },
+  "secretScan": {
+    "findingCount": 0,
+    "result": "pass"
+  },
+  "integrity": {
+    "algorithm": "sha256-json-v1",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

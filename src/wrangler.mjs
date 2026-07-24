@@ -6,6 +6,7 @@ import { resolveReadableFileInside } from "./path-safety.mjs";
 
 const referenceFields = {
   "analytics-engine": ["dataset"],
+  "assets": ["directory"],
   "d1": ["database_id", "database_name"],
   "durable-object": ["class_name", "script_name", "environment"],
   "hyperdrive": ["id"],
@@ -28,17 +29,27 @@ function referenceSha256(value, type) {
   return createHash("sha256").update(JSON.stringify(reference)).digest("hex");
 }
 
-function pushBindings(target, values, type) {
-  if (!Array.isArray(values)) return;
-  for (const value of values) {
-    const binding = typeof value?.binding === "string" ? value.binding : null;
-    if (binding) {
-      target.push({
-        binding,
-        referenceSha256: referenceSha256(value, type),
-        type,
-      });
-    }
+function bindingArray(config, key) {
+  if (!Object.hasOwn(config, key)) return [];
+  invariant(Array.isArray(config[key]), "INVALID_WRANGLER_BINDING", `${key} must be an array`);
+  return config[key];
+}
+
+function bindingObject(config, key) {
+  if (!Object.hasOwn(config, key)) return null;
+  invariant(config[key] && typeof config[key] === "object" && !Array.isArray(config[key]), "INVALID_WRANGLER_BINDING", `${key} must be an object`);
+  return config[key];
+}
+
+function pushBindings(target, values, type, label) {
+  for (const [index, value] of values.entries()) {
+    invariant(value && typeof value === "object" && !Array.isArray(value), "INVALID_WRANGLER_BINDING", `${label}[${index}] must be an object`);
+    invariant(typeof value.binding === "string" && value.binding.length > 0, "INVALID_WRANGLER_BINDING", `${label}[${index}].binding is required`);
+    target.push({
+      binding: value.binding,
+      referenceSha256: referenceSha256(value, type),
+      type,
+    });
   }
 }
 
@@ -52,17 +63,39 @@ export async function collectWranglerManifest(root, relativePath, environment = 
   }
   const bindings = [];
 
-  pushBindings(bindings, bindingConfig.d1_databases, "d1");
-  pushBindings(bindings, bindingConfig.r2_buckets, "r2");
-  pushBindings(bindings, bindingConfig.kv_namespaces, "kv");
-  pushBindings(bindings, bindingConfig.services, "service");
-  pushBindings(bindings, bindingConfig.analytics_engine_datasets, "analytics-engine");
-  pushBindings(bindings, bindingConfig.vectorize, "vectorize");
-  pushBindings(bindings, bindingConfig.hyperdrive, "hyperdrive");
-  pushBindings(bindings, bindingConfig.mtls_certificates, "mtls-certificate");
+  pushBindings(bindings, bindingArray(bindingConfig, "d1_databases"), "d1", "d1_databases");
+  pushBindings(bindings, bindingArray(bindingConfig, "r2_buckets"), "r2", "r2_buckets");
+  pushBindings(bindings, bindingArray(bindingConfig, "kv_namespaces"), "kv", "kv_namespaces");
+  pushBindings(bindings, bindingArray(bindingConfig, "services"), "service", "services");
+  pushBindings(bindings, bindingArray(bindingConfig, "analytics_engine_datasets"), "analytics-engine", "analytics_engine_datasets");
+  pushBindings(bindings, bindingArray(bindingConfig, "vectorize"), "vectorize", "vectorize");
+  pushBindings(bindings, bindingArray(bindingConfig, "hyperdrive"), "hyperdrive", "hyperdrive");
+  pushBindings(bindings, bindingArray(bindingConfig, "mtls_certificates"), "mtls-certificate", "mtls_certificates");
 
-  if (Array.isArray(bindingConfig.queues?.producers)) pushBindings(bindings, bindingConfig.queues.producers, "queue-producer");
-  if (bindingConfig.durable_objects?.bindings) pushBindings(bindings, bindingConfig.durable_objects.bindings, "durable-object");
+  const queues = bindingObject(bindingConfig, "queues");
+  if (queues) pushBindings(bindings, bindingArray(queues, "producers"), "queue-producer", "queues.producers");
+  const durableObjects = bindingObject(bindingConfig, "durable_objects");
+  if (durableObjects) pushBindings(bindings, bindingArray(durableObjects, "bindings"), "durable-object", "durable_objects.bindings");
+  const assets = bindingObject(bindingConfig, "assets");
+  if (assets && Object.hasOwn(assets, "binding")) {
+    invariant(typeof assets.binding === "string" && assets.binding.length > 0, "INVALID_WRANGLER_BINDING", "assets.binding must be a non-empty string");
+    bindings.push({
+      binding: assets.binding,
+      referenceSha256: referenceSha256(assets, "assets"),
+      type: "assets",
+    });
+  }
+
+  if (Object.hasOwn(bindingConfig, "vars")) {
+    invariant(bindingConfig.vars && typeof bindingConfig.vars === "object" && !Array.isArray(bindingConfig.vars), "INVALID_WRANGLER_BINDING", "vars must be an object");
+  }
+  if (Object.hasOwn(bindingConfig, "compatibility_flags")) {
+    invariant(Array.isArray(bindingConfig.compatibility_flags) && bindingConfig.compatibility_flags.every((flag) => typeof flag === "string"), "INVALID_WRANGLER_BINDING", "compatibility_flags must be an array of strings");
+  }
+  const versionMetadata = bindingObject(bindingConfig, "version_metadata");
+  if (versionMetadata && Object.hasOwn(versionMetadata, "binding")) {
+    invariant(typeof versionMetadata.binding === "string" && versionMetadata.binding.length > 0, "INVALID_WRANGLER_BINDING", "version_metadata.binding must be a non-empty string");
+  }
 
   bindings.sort((a, b) => `${a.type}:${a.binding}`.localeCompare(`${b.type}:${b.binding}`, "en"));
   const variableNames = Object.keys(bindingConfig.vars || {}).sort((a, b) => a.localeCompare(b, "en"));
@@ -76,8 +109,8 @@ export async function collectWranglerManifest(root, relativePath, environment = 
       : (Array.isArray(config.compatibility_flags) ? [...config.compatibility_flags].sort() : []),
     environment,
     variableNames,
-    versionMetadataBinding: typeof bindingConfig.version_metadata?.binding === "string"
-      ? bindingConfig.version_metadata.binding
+    versionMetadataBinding: typeof versionMetadata?.binding === "string"
+      ? versionMetadata.binding
       : null,
   };
 

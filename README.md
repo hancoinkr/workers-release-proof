@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml)
 [![Production reference](https://github.com/hancoinkr/workers-release-proof/actions/workflows/production-reference.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/production-reference.yml)
+[![Public Worker reference](https://github.com/hancoinkr/workers-release-proof/actions/workflows/public-reference.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/public-reference.yml)
 [![Release](https://img.shields.io/github/v/release/hancoinkr/workers-release-proof)](https://github.com/hancoinkr/workers-release-proof/releases)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933.svg)](https://nodejs.org/)
@@ -46,7 +47,7 @@ Any missing or mismatched fact fails the gate.
 
 ```bash
 npm install --save-dev \
-  https://github.com/hancoinkr/workers-release-proof/releases/download/v0.1.3/workers-release-proof-0.1.3.tgz
+  https://github.com/hancoinkr/workers-release-proof/releases/download/v0.2.0/workers-release-proof-0.2.0.tgz
 cp node_modules/workers-release-proof/release-proof.config.example.json \
   release-proof.config.json
 npx workers-release-proof scan
@@ -60,6 +61,9 @@ The package is currently distributed from pinned HTTPS GitHub release
 tarballs, not the npm registry. This avoids requiring GitHub SSH credentials
 and records an integrity value in `package-lock.json`. Release tarballs receive
 a public GitHub artifact attestation.
+
+Verify release checksums and the exact signing workflow with
+[docs/release-attestations.md](docs/release-attestations.md).
 
 ## Configuration
 
@@ -99,6 +103,11 @@ Set `wranglerEnvironment` when deploying with Wrangler `--env`; bindings are
 resolved from that named environment and raw resource identifiers remain
 private.
 
+Versioned configuration and evidence schemas are documented in
+[docs/json-schemas.md](docs/json-schemas.md). The supported binding matrix and
+named-environment behavior are in
+[docs/wrangler-compatibility.md](docs/wrangler-compatibility.md).
+
 ## Commands
 
 ```text
@@ -121,7 +130,7 @@ Common flags:
 
 ```yaml
 - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-- uses: hancoinkr/workers-release-proof@v0.1.3
+- uses: hancoinkr/workers-release-proof@v0.2.0
   with:
     config: release-proof.config.json
 ```
@@ -140,6 +149,12 @@ redacted receipt and scheduled live verification are documented in
 This is first-party production use, not independent third-party adoption. The
 distinction is kept explicit until another maintainer publishes a reproducible
 integration.
+
+The separate [public Worker reference](docs/public-reference.md) publishes its
+complete source, deterministic build output, Wrangler configuration, migration
+fixture, live endpoint, and postdeploy receipt. It requires no paid resource or
+private source to reproduce. The deployment is live at
+[workers-release-proof-reference.thatmean8.workers.dev](https://workers-release-proof-reference.thatmean8.workers.dev/).
 
 ## Security properties
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 - 2026-07-24
+
+- Published Draft 2020-12 schemas for configuration and evidence.
+- Added a fully public Cloudflare Worker source, deterministic build, live
+  endpoint, and scheduled postdeploy receipt verification.
+- Added a tested Wrangler binding matrix, static assets evidence, and
+  fail-closed rejection of malformed known binding structures.
+- Documented exact checksum and GitHub artifact-attestation verification.
+
 ## 0.1.3 - 2026-07-24
 
 - Fixed generic credential scanning to evaluate literal assignments without

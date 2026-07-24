@@ -8,6 +8,7 @@ const ignored = new Set([".git", "node_modules", ".release-proof"]);
 const required = [
   ".github/workflows/ci.yml",
   ".github/workflows/production-reference.yml",
+  ".github/workflows/public-reference.yml",
   ".github/workflows/release.yml",
   ".github/CODEOWNERS",
   ".github/dependabot.yml",
@@ -23,11 +24,19 @@ const required = [
   "SUPPORT.md",
   "docs/architecture.md",
   "docs/adoption/bitcoinkevin.json",
+  "docs/adoption/public-reference.json",
+  "docs/json-schemas.md",
+  "docs/public-reference.md",
+  "docs/release-attestations.md",
   "docs/security-model.md",
   "docs/maintainer-automation.md",
   "docs/production-reference.md",
+  "docs/wrangler-compatibility.md",
   "release-proof.config.example.json",
   "scripts/verify-production-reference.mjs",
+  "scripts/verify-public-reference.mjs",
+  "schemas/config-v1.schema.json",
+  "schemas/evidence-v1.schema.json",
 ];
 
 function filesBelow(directory) {

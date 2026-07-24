@@ -6,11 +6,11 @@ from public evidence.
 
 ## 0.2
 
-- publish JSON Schemas for configuration and evidence;
-- add an end-to-end public Cloudflare Workers reference deployment;
-- document compatibility across Wrangler configuration formats;
-- add tamper-focused fixtures for health and rollback evidence;
-- publish a verification guide for release attestations.
+- [x] publish JSON Schemas for configuration and evidence;
+- [x] add an end-to-end public Cloudflare Workers reference deployment;
+- [x] document compatibility across Wrangler binding and environment shapes;
+- [x] add tamper-focused tests for health and rollback evidence;
+- [x] publish a verification guide for release attestations.
 
 ## 1.0
 
