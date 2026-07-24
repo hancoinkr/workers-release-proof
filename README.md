@@ -1,5 +1,9 @@
 # Workers Release Proof
 
+[![CI](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/hancoinkr/workers-release-proof/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933.svg)](https://nodejs.org/)
+
 Fail-closed, content-addressed release evidence for Cloudflare Workers.
 
 Workers Release Proof proves that the commit you reviewed, the artifact you
