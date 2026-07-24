@@ -153,7 +153,8 @@ integration.
 The separate [public Worker reference](docs/public-reference.md) publishes its
 complete source, deterministic build output, Wrangler configuration, migration
 fixture, live endpoint, and postdeploy receipt. It requires no paid resource or
-private source to reproduce.
+private source to reproduce. The deployment is live at
+[workers-release-proof-reference.thatmean8.workers.dev](https://workers-release-proof-reference.thatmean8.workers.dev/).
 
 ## Security properties
 

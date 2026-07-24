@@ -27,6 +27,11 @@ node bin/workers-release-proof.mjs verify \
   --json
 ```
 
+The deployed reference and its machine-readable health response are public:
+
+- https://workers-release-proof-reference.thatmean8.workers.dev/
+- https://workers-release-proof-reference.thatmean8.workers.dev/health
+
 The `Public reference predeploy proof` CI job runs those gates on every pull
 request. The scheduled `Public Worker reference` workflow checks the deployed
 health response against the committed receipt without Cloudflare credentials.
@@ -34,7 +39,9 @@ health response against the committed receipt without Cloudflare credentials.
 The deployment exposes only public release identifiers: Git commit, artifact
 digest, migration digest, and Cloudflare deployment version ID. A generated,
 gitignored rollback record binds the current and previous deployment IDs to
-the same release.
+the same release. The first production proof passed six live assertions and
+bound evidence digest
+`7f6f665ab2ecbced78b1035c446525273d2f2776ce31169da82b12d21086e7ac`.
 
 ## Failure demonstrations
 

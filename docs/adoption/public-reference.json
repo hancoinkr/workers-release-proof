@@ -5,21 +5,50 @@
     "relationship": "first-party-maintainer-operated",
     "sourceVisibility": "public",
     "sourceUrl": "https://github.com/hancoinkr/workers-release-proof/tree/main/examples/public-reference",
-    "publicUrl": "PENDING_DEPLOYMENT"
+    "publicUrl": "https://workers-release-proof-reference.thatmean8.workers.dev/"
   },
   "proof": {
     "toolVersion": "0.2.0",
-    "result": "pending",
-    "generatedAt": null,
-    "commitSha": null,
-    "artifactSha256": null,
-    "migrationsSha256": null,
-    "currentDeploymentId": null,
-    "previousDeploymentId": null
+    "result": "pass",
+    "generatedAt": "2026-07-24T09:22:50.522Z",
+    "commitSha": "87a69f45b82ebbc84e5e791bb50b15458afc8146",
+    "artifactSha256": "1cb3892aae581313d569a7b84fb7bb31121c1c605cc621cd01df54fa27229861",
+    "migrationsSha256": "accc85b8e2d9325ecfac1966ad13c4b5acde0d6d60554203a174aecce16bee80",
+    "evidenceSha256": "7f6f665ab2ecbced78b1035c446525273d2f2776ce31169da82b12d21086e7ac",
+    "artifactFileCount": 1,
+    "migrationCount": 1,
+    "currentDeploymentId": "f415a947-7f5d-40a0-ba98-ca61de584771",
+    "previousDeploymentId": "1bc888d5-269d-43bf-a97c-916155762528",
+    "currentVersionId": "69227a9a-3094-4279-b417-b1ae294b21fa"
   },
   "health": {
-    "url": "PENDING_DEPLOYMENT",
+    "url": "https://workers-release-proof-reference.thatmean8.workers.dev/health",
     "expectedStatus": 200,
-    "assertions": []
+    "assertions": [
+      {
+        "path": "data.status",
+        "equals": "ok"
+      },
+      {
+        "path": "data.project",
+        "equals": "workers-release-proof-public-reference"
+      },
+      {
+        "path": "data.release.commitSha",
+        "equals": "87a69f45b82ebbc84e5e791bb50b15458afc8146"
+      },
+      {
+        "path": "data.release.artifactSha256",
+        "equals": "1cb3892aae581313d569a7b84fb7bb31121c1c605cc621cd01df54fa27229861"
+      },
+      {
+        "path": "data.release.migrationsSha256",
+        "equals": "accc85b8e2d9325ecfac1966ad13c4b5acde0d6d60554203a174aecce16bee80"
+      },
+      {
+        "path": "data.release.deploymentVersionId",
+        "equals": "69227a9a-3094-4279-b417-b1ae294b21fa"
+      }
+    ]
   }
 }
